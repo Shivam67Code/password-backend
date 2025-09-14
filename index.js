@@ -7,8 +7,19 @@ import connectDB from "./db/db.js";
 
 
 
-connectDB();
-
+connectDB()
+  .then(() => {
+    app.on("error", (error) => {
+      console.log("Error : ", error);
+      throw error
+    })
+    app.listen(process.env.PORT || 8000, () => {
+      console.log(`Server is running at port ${process.env.PORT}`)
+    })
+  })
+  .catch((err) => {
+    console.log("Mongo DB connection Failed !!! ", err)
+  })
 /*
 One of the ways to connect to database. (ignored this way to make index file less polluted)
 
