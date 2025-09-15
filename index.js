@@ -3,10 +3,9 @@ import dotenv from "dotenv"
 import mongoose from "mongoose";
 import { DB_NAME } from "./constants.js";
 import connectDB from "./db/db.js";
+import { app } from "./app.js"
 
-
-
-
+// We use this method of creating a connect db funcition in another file and then imporing in this file and then calling it.
 connectDB()
   .then(() => {
     app.on("error", (error) => {
@@ -14,12 +13,17 @@ connectDB()
       throw error
     })
     app.listen(process.env.PORT || 8000, () => {
-      console.log(`Server is running at port ${process.env.PORT}`)
+      console.log(`Server is running at http://localhost:${process.env.PORT}`)
+    })
+    app.get('/', (req, res) => {
+      res.send('<h1>Server is running nice.😉</h1>')
     })
   })
   .catch((err) => {
     console.log("Mongo DB connection Failed !!! ", err)
   })
+
+
 /*
 One of the ways to connect to database. (ignored this way to make index file less polluted)
 
